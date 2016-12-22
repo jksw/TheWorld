@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>The World - @ViewBag.Title</title>
+  <meta charset="utf-8" />
+  @*the ~/ says replace me with whatever the root of the website is*@
+  <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+  <div id="sidebar">
+    <img src="~/img/homer.png" alt="Homer" class="headshot" />
+    <span id="username">Homer Simpson</span>
+    <ul class="menu">
+
+      @*This code is fragile - if routing patterns change, code is broken*@
+      @*<li class="active"><a href="#">Home</a></li>
+        <li><a href="~/App/About">About</a></li>
+        <li><a href="~/App/Contact">Contact</a></li>*@
+
+      @*Use tag helpers to buid less fragile code; code below won't break if route patterns change*@
+      @*But you must enable tag helpers in the project*@
+      <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
+      <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
+      <li><a asp-controller="App" asp-action="About">About</a></li>
+
+
+    </ul>
+
+  </div>
+  <div id="wrapper">
+    <div id="main">
+      <div>
+        <button id="sidebarToggle">Toggle Menu</button>
+      </div>
+
+      @RenderBody()
+
+    </div>
+    <div id="footer">
+      &copy;2016 The World Ltd.
+    </div>
+  </div>
+
+  <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+
+  @*if a view, that uses this layout, has scripts in a section scripts block, they will
+    emit here.   *@
+
+  @*from https://weblogs.asp.net/scottgu/asp-net-mvc-3-layouts-and-sections-with-razor*@
+  @*The first parameter to the “RenderSection()” helper method specifies the name of the section we want to
+    render at that location in the layout template.  The second parameter is optional, and allows us to
+    define whether the section we are rendering is required or not.  If a section is “required”, then
+    Razor will throw an error at runtime if that section is not implemented within a view template that
+     is based on the layout file (which can make it easier to track down content errors).  If a section
+    is not required, then its presence within a view template is optional, and the above RenderSection()
+     code will render nothing at runtime if it isn’t defined.*@
+
+  @RenderSection("scripts", false)
+
+  <script type="text/javascript" src="~/js/site.js"></script>
+
+</body>
+</html>

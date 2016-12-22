@@ -1,0 +1,49 @@
+﻿@model TheWorld.ViewModels.ContactViewModel
+@{
+  ViewBag.Title = "Contact Page";
+
+}
+@*Very confusing.  Look at _Layout.cshtml; this script block will actually be rendered in the
+*@
+
+@section scripts {
+  <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+  <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<h2>Contact Me</h2>
+
+
+@*What's going on with validation:  the view model will be validated on server, 
+but we also get client side validation emitted into view that knows about validations*@
+
+<form method="post">
+  @*shows errors that are NOT about the individual fields.  Not sure I understand this*@
+  <span asp-validation-summary="ModelOnly"></span>
+
+  @if (ViewBag.UserMessage != null)
+  {
+    <div>@ViewBag.UserMessage</div>
+  }
+
+  <label asp-for="Name"></label>
+
+  <input asp-for="Name" />
+  <span asp-validation-for="Name"> </span>
+
+
+  <label asp-for="Email"></label>
+
+  <input type="Email" asp-for="Email" />
+  <span asp-validation-for="Email"> </span>
+
+
+  <label asp-for="Message"></label>
+
+
+  <textarea cols="40" rows="4" asp-for="Message"></textarea>
+  <span asp-validation-for="Message"> </span>
+  <div>
+    <input type="submit" value="Send Message" />
+  </div>
+</form>
