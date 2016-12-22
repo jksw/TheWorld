@@ -44,8 +44,10 @@ namespace TheWorld.Controllers.Web
         //Model error would show up in validation summary
         //ModelState.AddModelError("", "We don't support AOL addresses");
       }
-
+        
       if (ModelState.IsValid)
+
+
       {
         _mailService.SendMail(_config["MailSettings:ToAddress"], model.Email, "From TheWorld", model.Message);
         ModelState.Clear();
