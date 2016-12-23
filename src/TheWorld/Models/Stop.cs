@@ -7,6 +7,6 @@
     public double Latitude { get; set; }
     public double  Longitude { get; set; }
     public int Order { get; set; }
-    public double Arrival { get; set; }
+    public System.DateTime Arrival { get; set; }
   }
 }

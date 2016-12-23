@@ -55,6 +55,8 @@ namespace TheWorld
 
       services.AddDbContext<WorldContext>();
 
+      services.AddTransient<WorldContextSeedData>();
+
 
       //Need services to make mvc work
       services.AddMvc();
@@ -63,7 +65,8 @@ namespace TheWorld
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+        ILoggerFactory loggerFactory, WorldContextSeedData seeder)
     {
       //Only needed when tutorial started -- because the tutorial started with a static
       // html file.  After adding View, UseDefaultFiles() is preventing the view from loading.
@@ -86,6 +89,8 @@ namespace TheWorld
           defaults: new { controller = "App", action = "Index" }
           );
       });
+
+      seeder.EnsureSeedData().Wait();
 
 
 
