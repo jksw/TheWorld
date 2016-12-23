@@ -8,6 +8,7 @@ using TheWorld.ViewModels;
 using TheWorld.Services;
 using Microsoft.Extensions.Configuration;
 using TheWorld.Models;
+using Microsoft.Extensions.Logging;
 
 namespace TheWorld.Controllers.Web
 {
@@ -16,22 +17,40 @@ namespace TheWorld.Controllers.Web
     private IMailService _mailService;
     private IConfigurationRoot _config;
     private IWorldRepository _repository;
+    private ILogger<AppController> _logger;
 
-    public AppController(IMailService mailService, IConfigurationRoot config, IWorldRepository repository)
+    public AppController(IMailService mailService,
+      IConfigurationRoot config,
+      IWorldRepository repository,
+      ILogger<AppController> logger)
     {
       _mailService = mailService;
       _config = config;
       _repository = repository;
+      _logger = logger;
 
     }
 
 
     public IActionResult Index()
     {
-      var data = _repository.GetAllTrips();
 
-      return View();
+      try
+      { 
+    
+        var data = _repository.GetAllTrips();
+
+        return View();
+      }
+
+      catch (Exception ex)
+      {
+        _logger.LogError($"Failed to get trips in Index page: {ex.Message}");
+        return Redirect("/error");
+
+      }
     }
+
 
     public IActionResult Contact()
     {
@@ -50,7 +69,7 @@ namespace TheWorld.Controllers.Web
         //Model error would show up in validation summary
         //ModelState.AddModelError("", "We don't support AOL addresses");
       }
-        
+
       if (ModelState.IsValid)
 
 
