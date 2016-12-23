@@ -12,7 +12,9 @@
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.AspNet.Mvc.TagHelpers": "6.0.0-rc1-final",
     "System.ComponentModel.Annotations": "4.1.0",
-    "Microsoft.Extensions.Configuration.Json": "1.0.0"
+    "Microsoft.Extensions.Configuration.Json": "1.0.0",
+    "Microsoft.EntityFrameworkCore": "1.0.0",
+    "Microsoft.EntityFrameworkCore.SqlServer": "1.0.0"
   },
 
   "tools": {
