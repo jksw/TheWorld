@@ -4,6 +4,10 @@
   },
   "ConnectionStrings": {
     "WorldContextConnection": "Server=(localdb)\\MSSQLLocalDb;Database=TheWorldDb;Trusted_Connection=true;MultipleActiveResultSets=true;"
-
+  },
+  "Keys": {
+    "BingKey": "donteverputkeysinsourcecontrol"
+    //see 5:30 in module Imlemetning a Service.  Create enviro variable. 
+      //Name the key like this:   Keys__BingKey    that's 2 underscores.  Then get your own bing key
   }
 }

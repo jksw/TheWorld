@@ -16,6 +16,6 @@ namespace TheWorld.Models
     //dealing with repository.  
     void AddTrip(Trip trip);
 
-
+    void AddStop(string tripName, Stop newStop);
   }
 }

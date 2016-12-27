@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TheWorld.Models
 {
-  public class WorldRepository: IWorldRepository
+  public class WorldRepository : IWorldRepository
   {
     private WorldContext _context;
     private ILogger<WorldRepository> _logger;
@@ -19,7 +19,19 @@ namespace TheWorld.Models
       _logger = logger;
 
     }
-    public void AddTrip (Trip trip)
+
+    public void AddStop(string tripName, Stop newStop)
+    {
+      var trip = GetTripByName(tripName);
+
+      if (trip != null)
+      {
+        trip.Stops.Add(newStop);       //Foreign key is being set
+        _context.Stops.Add(newStop);   //Actually being added
+      }
+    }
+
+    public void AddTrip(Trip trip)
     {
       _context.Add(trip);
 
@@ -46,6 +58,6 @@ namespace TheWorld.Models
       return (await _context.SaveChangesAsync()) > 0;
     }
 
-  
+
   }
 }
