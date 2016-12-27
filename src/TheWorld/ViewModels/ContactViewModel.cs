@@ -9,8 +9,10 @@ namespace TheWorld.ViewModels
 {
     public class ContactViewModel
     {
-    //enter the sting "prop" then press tab twice
-
+    
+    // Purpose of view model is to separate the Model class data (internal use, none of the user's business) from the ViewModel class data (
+    // what we choose to expose to user).
+    
     //Quoting Shawn W: 
     //Using this class lets us do model binding, meaning: lets us accept data from from
     // directly inside of a method of the contoller

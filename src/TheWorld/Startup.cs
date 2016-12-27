@@ -10,6 +10,9 @@ using Microsoft.Extensions.Logging;
 using TheWorld.Services;
 using Microsoft.Extensions.Configuration;
 using TheWorld.Models;
+using Newtonsoft.Json.Serialization;
+using AutoMapper;
+using TheWorld.ViewModels;
 
 namespace TheWorld
 {
@@ -63,9 +66,13 @@ namespace TheWorld
 
 
       //Need services to make mvc work
-      services.AddMvc();
+      //services.AddMvc();
 
-
+      services.AddMvc()
+      .AddJsonOptions(config =>
+      {
+        config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +81,15 @@ namespace TheWorld
         ILoggerFactory factory,
         WorldContextSeedData seeder)
     {
+
+      //Automapper
+      //TODO I do not understand how this statement works.  What is config?
+      Mapper.Initialize(config =>
+      {
+        config.CreateMap<TripViewModel, Trip>().ReverseMap();
+      });
+
+
       //Only needed when tutorial started -- because the tutorial started with a static
       // html file.  After adding View, UseDefaultFiles() is preventing the view from loading.
       //app.UseDefaultFiles();
@@ -89,19 +105,19 @@ namespace TheWorld
       {
         factory.AddDebug(LogLevel.Error);
       }
-    
 
 
 
-    //After adding view, need to enable route to the view
-    app.UseMvc(config =>
-      {
-        config.MapRoute(
-          name: "Default",
-          template: "{controller}/{action}/{id?}",
-          defaults: new { controller = "App", action = "Index" }
-          );
-      });
+
+      //After adding view, need to enable route to the view
+      app.UseMvc(config =>
+        {
+          config.MapRoute(
+            name: "Default",
+            template: "{controller}/{action}/{id?}",
+            defaults: new { controller = "App", action = "Index" }
+            );
+        });
 
       seeder.EnsureSeedData().Wait();
 
