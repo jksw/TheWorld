@@ -5,7 +5,8 @@
   <meta charset="utf-8" />
   @*the ~/ says replace me with whatever the root of the website is*@
   <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+  <link href="~/lib/bootswatch/yeti/bootstrap.min.css" rel="stylesheet" />
+  <link href="~/lib/fontawesome/css/font-awesome.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -33,14 +34,17 @@
   <div id="wrapper">
     <div id="main">
       <div>
-        <button id="sidebarToggle">Toggle Menu</button>
+        <button id="sidebarToggle" class="btn btn-primary">
+          @*SW indicates that font awesome is coming along, for Boostrap 4, to replace Bootstrap 3 glyphs*@
+          <i class="fa fa-angle-left"></i>
+        </button>
       </div>
 
       @RenderBody()
 
     </div>
     <div id="footer">
-      &copy;2016 The World Ltd.
+      <p class="text-primary">&copy;2016 The World Ltd.</p>
     </div>
   </div>
 
