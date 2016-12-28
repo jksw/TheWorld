@@ -14,7 +14,7 @@
   <div id="sidebar">
     <img src="~/img/homer.png" alt="Homer" class="headshot" />
     <span id="username">Homer Simpson</span>
-    <ul class="menu">
+    <ul class="nav">
 
       @*This code is fragile - if routing patterns change, code is broken*@
       @*<li class="active"><a href="#">Home</a></li>
@@ -32,19 +32,39 @@
 
   </div>
   <div id="wrapper">
-    <div id="main">
-      <div>
-        <button id="sidebarToggle" class="btn btn-primary">
-          @*SW indicates that font awesome is coming along, for Boostrap 4, to replace Bootstrap 3 glyphs*@
-          <i class="fa fa-angle-left"></i>
-        </button>
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-left">
+          <li>
+            <button id="sidebarToggle" class="btn btn-primary">
+              @*SW indicates that font awesome is coming along, for Boostrap 4, to replace Bootstrap 3 glyphs*@
+              <i class="fa fa-angle-left"></i>
+            </button>
+          </li>
+        </ul>
+        <a asp-controller="App" asp-action="Index" class="navbar-brand">The World</a>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" class="btn btn-sm btn-info">
+              <i class="fa fa-save"></i> Save
+            </a>
+          </li>
+          <li>
+            <a href="#" class="btn btn-sm btn-info">
+              <i class="fa fa-print"></i> Print
+            </a>
+          </li>
+        </ul>
       </div>
+    </nav>
 
+    <div id="main" class="container-fluid">
       @RenderBody()
-
     </div>
-    <div id="footer">
-      <p class="text-primary">&copy;2016 The World Ltd.</p>
+    <div id="footer" class="container-fluid">
+      <div class="navbar navbar-inverse navbar-fixed-bottom">
+        <h4 class="text-center text-info">&copy;2016 The World Ltd.</h4>
+      </div>
     </div>
   </div>
 
@@ -69,7 +89,7 @@
 
 
 
-  
+
 
 </body>
 </html>
