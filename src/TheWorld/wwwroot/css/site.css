@@ -1,5 +1,7 @@
 ﻿/* site.css */
-body {
+
+/*Commentint out when doing the Bootstrap module cuz going to rely on Bootstrap now*/
+/*body {
     font-family: sans-serif;
     font-size: 14px;
     margin: 0;
@@ -12,7 +14,7 @@ label {
 
 input[type=text], input[type=password], text-area {
     width: 150px;
-}
+}*/
 
 #main {
     background-color: #eee;

@@ -34,23 +34,22 @@ namespace TheWorld.Controllers.Web
 
     public IActionResult Index()
     {
-
       try
-      { 
-    
-        var data = _repository.GetAllTrips();
-
+      {
         return View();
       }
-
       catch (Exception ex)
       {
         _logger.LogError($"Failed to get trips in Index page: {ex.Message}");
         return Redirect("/error");
-
       }
     }
 
+    public IActionResult Trips()
+    {
+      var trips = _repository.GetAllTrips();
+      return View(trips);
+    }
 
     public IActionResult Contact()
     {

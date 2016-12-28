@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace TheWorld.Services
 {
+  /// <summary>
+  /// 
+  /// </summary>
   public class GeoCoordsService
   {
     private IConfigurationRoot _config;
@@ -22,6 +25,19 @@ namespace TheWorld.Services
       _config = config;
     }
 
+    //http://www.jerriepelser.com/blog/aspnet-core-no-more-worries-about-checking-in-secrets/
+    //Link to how to set enviro variables (properties/computer.. advanced)
+    // Stuck:  I have to use ADMWESTON account when setting env variables "Use variables".  So
+    //         I will create as system variable.
+    //   be sure to exit VS, re-launch anytime you alter env variables using Computer Properies
+    //   -- Note, setting env variables in project properties results in them being saved to 
+    //      c:\TEMP\TheWorld\src\TheWorld\Properties\launchSettings.json, WHICH IS NOT what 
+    //      you want for secrets.
+    //      
+    //      Note -- there is a way to save secrets at dev time, built into asp.net core, 
+    //             but it's the usual convoluted MS approach and I don't understand it and I don't
+    //             know how it migrates to production.
+
     public async Task<GeoCoordsResult> GetCoordsAsync(string name)
     {
       var result = new GeoCoordsResult()
@@ -30,9 +46,11 @@ namespace TheWorld.Services
         Message = "Failed to get coordinates"
       };
 
-      //var apiKey = _config["Keys:BingKey"];
-      var apiKey = "AsXn3Sbr24-x-VGqehSg_BVjzg0ztuknhQcrsPx4hbvHFHZde4rwILeq7RadzeOa";
+      //This is how you should do this -- from config, which is from environment variable
+      //but if you set an env variable, exit vs and relaunch it.
+      var apiKey = _config["Keys:BingKey"];
 
+     
       var encodedName = WebUtility.UrlEncode(name);
       var url = $"http://dev.virtualearth.net/REST/v1/Locations?q={encodedName}&key={apiKey}";
 

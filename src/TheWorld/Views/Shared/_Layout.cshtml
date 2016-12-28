@@ -4,6 +4,8 @@
   <title>The World - @ViewBag.Title</title>
   <meta charset="utf-8" />
   @*the ~/ says replace me with whatever the root of the website is*@
+  <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+
   <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
@@ -43,6 +45,9 @@
   </div>
 
   <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="~/js/site.js"></script>
+
 
   @*if a view, that uses this layout, has scripts in a section scripts block, they will
     emit here.   *@
@@ -58,7 +63,9 @@
 
   @RenderSection("scripts", false)
 
-  <script type="text/javascript" src="~/js/site.js"></script>
+
+
+  
 
 </body>
 </html>
