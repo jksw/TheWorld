@@ -9,6 +9,8 @@ using TheWorld.Services;
 using Microsoft.Extensions.Configuration;
 using TheWorld.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace TheWorld.Controllers.Web
 {
@@ -34,21 +36,46 @@ namespace TheWorld.Controllers.Web
 
     public IActionResult Index()
     {
-      try
-      {
-        return View();
-      }
-      catch (Exception ex)
-      {
-        _logger.LogError($"Failed to get trips in Index page: {ex.Message}");
-        return Redirect("/error");
-      }
+
+
+      //int i;
+      //i = 0;
+      //i = 10 / i;
+      return View();
+
+
+      //try
+      //{
+      //  int i;
+      //  i = 0;
+      //  i = 10 / i;
+      //  return View();
+      //}
+      //catch (Exception ex)
+      //{
+      //  _logger.LogError($"Failed to get trips in Index page: {ex.Message}");
+        
+      //}
+      //return View();
     }
 
+    [Authorize]
     public IActionResult Trips()
     {
-      var trips = _repository.GetAllTrips();
-      return View(trips);
+          var trips = _repository.GetAllTrips();
+          return View(trips);
+
+      //  try
+      //  {
+      //    var trips = _repository.GetAllTrips();
+      //    return View(trips);
+      //  }
+
+      //  catch (Exception ex)
+      //  {
+      //    _logger.LogError($"Failed to get trips in Trips page: {ex.Message}");
+      //    return Redirect("/error");
+      //  }
     }
 
     public IActionResult Contact()

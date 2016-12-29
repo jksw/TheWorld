@@ -13,6 +13,7 @@ using TheWorld.Models;
 using Newtonsoft.Json.Serialization;
 using AutoMapper;
 using TheWorld.ViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace TheWorld
 {
@@ -44,6 +45,13 @@ namespace TheWorld
     public void ConfigureServices(IServiceCollection services)
     {
 
+      services.AddMvc()
+      .AddJsonOptions(config =>
+      {
+        config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+      });
+
+
       services.AddSingleton(_config);
 
       //Our own services
@@ -55,6 +63,18 @@ namespace TheWorld
       {
         // Implement real service
       }
+
+
+
+      //Identity. I don't fully yet understand how this (and other) call works
+      services.AddIdentity<WorldUser, IdentityRole>(config =>
+      {
+        config.User.RequireUniqueEmail = true;
+        config.Password.RequiredLength = 8;
+        config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+      })
+      .AddEntityFrameworkStores<WorldContext>();
+
 
       services.AddDbContext<WorldContext>();
 
@@ -70,12 +90,12 @@ namespace TheWorld
       //Need services to make mvc work
       //services.AddMvc();
 
-      services.AddMvc()
-      .AddJsonOptions(config =>
-      {
-        config.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-      });
+
     }
+
+
+    // O R D E R   M A T T E R S !!!!
+    // this is the middleware order that things are handled in.  .. when???
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app,
@@ -83,27 +103,15 @@ namespace TheWorld
         ILoggerFactory factory,
         WorldContextSeedData seeder)
     {
-
-      //Automapper
-      //TODO I do not understand how this statement works.  What is config?
-      Mapper.Initialize(config =>
-      {
-        config.CreateMap<TripViewModel, Trip>().ReverseMap();
-
-        config.CreateMap<StopViewModel, Stop>().ReverseMap();
-      });
+      app.UseIdentity();
 
 
-      //Only needed when tutorial started -- because the tutorial started with a static
-      // html file.  After adding View, UseDefaultFiles() is preventing the view from loading.
-      //app.UseDefaultFiles();
-      app.UseStaticFiles();
 
       if (env.IsEnvironment("Development"))
       {
-        app.UseDeveloperExceptionPage();
 
         factory.AddDebug(LogLevel.Information);
+        app.UseDeveloperExceptionPage();
       }
       else
       {
@@ -112,6 +120,21 @@ namespace TheWorld
 
 
 
+
+
+
+      //Automapper
+      //TODO I do not understand how this statement works.  What is config?
+      Mapper.Initialize(config =>
+      {
+        config.CreateMap<TripViewModel, Trip>().ReverseMap();
+        config.CreateMap<StopViewModel, Stop>().ReverseMap();
+      });
+
+      //Only needed when tutorial started -- because the tutorial started with a static
+      // html file.  After adding View, UseDefaultFiles() is preventing the view from loading.
+      //app.UseDefaultFiles();
+      app.UseStaticFiles();
 
       //After adding view, need to enable route to the view
       app.UseMvc(config =>
@@ -123,17 +146,13 @@ namespace TheWorld
             );
         });
 
-      seeder.EnsureSeedData().Wait();
-
-
+       seeder.EnsureSeedData().Wait();
 
       //loggerFactory.AddConsole();
-
       //if (env.IsDevelopment())
       //{
       //    app.UseDeveloperExceptionPage();
       //}
-
       //app.Run(async (context) =>
       //{
       //    await context.Response.WriteAsync("Hello World!");
