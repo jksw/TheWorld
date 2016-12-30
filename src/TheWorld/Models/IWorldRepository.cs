@@ -7,6 +7,10 @@ namespace TheWorld.Models
   {
     IEnumerable<Trip> GetAllTrips();
 
+    IEnumerable<Trip> GetAllTripsBuUsername(string name);
+
+    Trip GetUserTripByName(string tripName, string name);
+                      
     Trip GetTripByName(string tripName);
 
     Task<bool> SaveChangesAsync();
@@ -16,6 +20,7 @@ namespace TheWorld.Models
     //dealing with repository.  
     void AddTrip(Trip trip);
 
-    void AddStop(string tripName, Stop newStop);
+    void AddStop(string tripName, Stop newStop, string name);
+   
   }
 }

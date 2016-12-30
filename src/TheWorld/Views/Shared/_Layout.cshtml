@@ -12,8 +12,11 @@
 <body>
 
   <div id="sidebar">
-    <img src="~/img/homer.png" alt="Homer" class="headshot" />
-    <span id="username">Homer Simpson</span>
+    @if (User.Identity.IsAuthenticated)
+    {
+      <img src="~/img/homer.png" alt="Homer" class="headshot" />
+      <span id="username">@User.Identity.Name</span>
+    }
     <ul class="nav">
 
       @*This code is fragile - if routing patterns change, code is broken*@
@@ -27,6 +30,11 @@
       <li><a asp-controller="App" asp-action="Contact">Contact</a></li>
       <li><a asp-controller="App" asp-action="About">About</a></li>
 
+      @if (User.Identity.IsAuthenticated)
+      {
+        <li><a asp-controller="App" asp-action="Trips">My Trips</a></li>
+        <li><a asp-controller="Auth" asp-action="Logout">Logout</a></li>
+      }
 
     </ul>
 
