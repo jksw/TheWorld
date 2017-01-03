@@ -2,7 +2,66 @@
   ViewBag.Title = "Home Page";
 
 }
-<div class="row">
+@section Scripts {
+  <script src="~/lib/angular/angular.min.js"></script>
+  <script src="~/js/simpleControls.js"></script>
+  <script src="~/js/app-trips.js"></script>
+  <script src="~/js/trips-controller.js"></script>
+}
+
+<div class="row" ng-app="app-trips">
+  @*"I want to represent something that will be bound or computed" you are telling Angular this*@
+  @*for example, you could just put some JavaScript in to add 2 numbers:*@
+  @*Note that's a bad idea; purpose here is just to illustrate what happens inside the double curlies*@
+
+  @*doing MVC but all on the client side - that's what Angular is providing.*@
+  @*You do recall that "client side" means running in the browser, right?*@
+
+  @*<div> {{"Two plus two equals: " + (2 + 2)}}</div>*@
+
+  <div ng-controller="tripsController as vm" class="col-md-6  col-md-offset-3">
+
+    @*vm-errorMessage comes back as true if exists and isn't an empy string.  That's how JavaScript works.*@
+    <div class="text-danger" ng-show="vm.errorMessage"> {{ vm.errorMessage}}</div>
+
+
+    @*replaced by directive*@
+    @*<div ng-show="true" class="text-center"><i class="fa fa-spinner fa-spin"></i> Loading</div>*@
+
+    <wait-cursor ng-show="vm.isBusy"></wait-cursor>
+
+    @*<wait-cursor ng-show="true"></wait-cursor>*@
+
+    <table class="table table-responsive table-striped">
+      <tr ng-repeat="trip in vm.trips">
+        <td>{{trip.name}}</td>
+        <td>{{trip.created | date: 'MM-dd-yyyy'}}</td>
+        <td><a href="#" class="btn btn-sm  btn-primary">Manage</a></td>
+      </tr>
+    </table>
+
+    <form novalidate name="newTripForm" ng-submit="vm.addTrip()">
+      <div class="form-group">
+        <label for="name">Trip Name</label>
+        @*the ng-model phrase specifies that what user types in will get over to the name property of the model*@
+        <input class="form-control" type="text" id="name" name="name" ng-model="vm.newTrip.name" required ng-minlength="5" />
+        <span ng-show="newTripForm.name.$error.required" class="text-warning">Name is required </span>
+        <span ng-show="newTripForm.name.$error.minlength" class="text-warning">Name must be at least 5 characters.</span>
+      </div>
+
+
+      <div class="form-group">
+        @*when you see $ know that Angular put that property there*@
+        <input type="submit" value="Add" class="btn btn-success btn-sm"
+               ng-disabled="newTripForm.$invalid" />
+      </div>
+
+    </form>
+  </div>
+
+
+
+
   <div class="col-md-6">
     <h2>The World</h2>
 
@@ -18,7 +77,7 @@
         <label>Location</label>
         <input class="form-control" />
       </div>
-      <div><input type="submit" value="Add"  class="btn btn-success"/></div>
+      <div><input type="submit" value="Add" class="btn btn-success" /></div>
 
 
     </form>

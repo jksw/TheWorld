@@ -50,6 +50,7 @@ namespace TheWorld.Models
       return _context.Trips
         .Include(t => t.Stops)
         .Where(t => t.UserName == name)
+        .OrderBy(t => t.Name)
         .ToList();
     }
 
